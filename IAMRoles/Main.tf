@@ -7,10 +7,10 @@ terraform {
 
 	backend "remote" {
 		hostname = "app.terraform.io"
-		organization = "CloudQuickLabs"
+		organization = "Pravisht"
 
 		workspaces {
-			name = "AWSBackup"
+			name = "WSwema-terraform-workspace"
 		}
 	}
 }

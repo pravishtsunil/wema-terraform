@@ -1,1 +1,1 @@
-bucket_name = "devcloudqucikpocstestingbucket"
+bucket_name = "pravisht-wema-terraform-s3-bucket-dev"
