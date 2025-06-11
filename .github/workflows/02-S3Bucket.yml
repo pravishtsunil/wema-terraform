@@ -4,8 +4,8 @@ on:
 
 jobs:
   Plan_Dev:
-    if: github.ref == 'refs/heads/main'
-    uses: pravishtsunil/wema-terraform/.github/workflows/aws_tf_plan.yml@main
+    if: github.ref == 'refs/heads/dev'
+    uses: pravishtsunil/wema-terraform/.github/workflows/aws_tf_plan.yml@dev
     with:
       path: S3Bucket
       tf_vars_file: dev.tfvars
@@ -15,7 +15,7 @@ jobs:
 
   Deploy_Dev:
     needs: Plan_Dev
-    uses: pravishtsunil/wema-terraform/.github/workflows/aws_tf_appy.yml@main
+    uses: pravishtsunil/wema-terraform/.github/workflows/aws_tf_appy.yml@dev
     with:
       path: S3Bucket
       tf_vars_file: dev.tfvars
