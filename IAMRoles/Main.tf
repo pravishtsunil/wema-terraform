@@ -10,7 +10,7 @@ terraform {
 		organization = "Pravisht"
 
 		workspaces {
-			name = "WSwema-terraform-workspace"
+			name = "wema-terraform-workspace"
 		}
 	}
 }
