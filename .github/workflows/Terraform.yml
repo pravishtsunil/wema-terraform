@@ -1,4 +1,4 @@
-name: "01_S3Bucket"
+name: "Terraform Workflow"
 on:
   workflow_dispatch:
 
@@ -7,8 +7,8 @@ jobs:
     if: github.ref == 'refs/heads/dev'
     uses: pravishtsunil/wema-terraform/.github/workflows/aws_tf_plan.yml@dev
     with:
-      path: S3Bucket
-      tf_vars_file: dev.tfvars
+      path: Terraform
+      tf_vars_file: tfvars/dev/dev.tfvars
       gh_environment: dev
     secrets:
       cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
@@ -17,8 +17,8 @@ jobs:
     needs: Plan_Dev
     uses: pravishtsunil/wema-terraform/.github/workflows/aws_tf_appy.yml@dev
     with:
-      path: S3Bucket
-      tf_vars_file: dev.tfvars
+      path: Terraform
+      tf_vars_file: tfvars/dev/dev.tfvars
       gh_environment: dev
     secrets:
       cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
@@ -27,8 +27,8 @@ jobs:
     if: github.ref == 'refs/heads/main'
     uses: pravishtsunil/wema-terraform/.github/workflows/aws_tf_plan.yml@main
     with:
-      path: S3Bucket
-      tf_vars_file: uat.tfvars
+      path: Terraform
+      tf_vars_file: tfvars/uat/uat.tfvars
       gh_environment: uat
     secrets:
       cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
@@ -37,8 +37,8 @@ jobs:
     needs: Plan_Uat
     uses: pravishtsunil/wema-terraform/.github/workflows/aws_tf_appy.yml@main
     with:
-      path: S3Bucket
-      tf_vars_file: uat.tfvars
+      path: Terraform
+      tf_vars_file: tfvars/uat/uat.tfvars
       gh_environment: uat
     secrets:
       cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}

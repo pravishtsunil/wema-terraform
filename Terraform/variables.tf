@@ -7,3 +7,7 @@ variable "region" {
   description = "The AWS region where the IAM role will be created."
   default     = "us-east-1"
 }
+variable "bucket_name" {
+  type = string
+  description = "bucket name"
+}
