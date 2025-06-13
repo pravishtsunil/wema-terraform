@@ -23,16 +23,12 @@ on:
         type: string
     secrets:
       AWS_ACCESS_KEY_ID:
-        description: 'AWS Access Key ID'
         required: true
       AWS_SECRET_ACCESS_KEY:
-        description: 'AWS Secret Access Key'
         required: true
       AWS_REGION:
-        description: 'AWS Region'
         required: true
       TF_STATE_BUCKET:
-        description: 'Terraform State Bucket'
         required: true
 
 jobs:
@@ -71,7 +67,6 @@ jobs:
             }
           }
           EOF
-
 
       - name: Terraform Init
         id: init
