@@ -52,7 +52,7 @@ jobs:
 
       - name: Configure Backend
         run: |
-          cat > backend.tf <<EOF
+          cat > ${{ inputs.path}}/backend.tf <<EOF
           terraform {
             backend "s3" {
               bucket         = "${{ secrets.TF_STATE_BUCKET }}"
