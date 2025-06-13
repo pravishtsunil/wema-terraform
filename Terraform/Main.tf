@@ -5,14 +5,14 @@ terraform {
 		}
 	}
 
-	backend "remote" {
-		hostname = "app.terraform.io"
-		organization = "Pravisht"
+	# backend "remote" {
+	# 	hostname = "app.terraform.io"
+	# 	organization = "Pravisht"
 
-		workspaces {
-			name = "wema-terraform-workspace"
-		}
-	}
+	# 	workspaces {
+	# 		name = "wema-terraform-workspace"
+	# 	}
+	# }
 }
 
 provider "aws" {
