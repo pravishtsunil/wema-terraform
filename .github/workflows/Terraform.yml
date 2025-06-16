@@ -10,88 +10,152 @@ jobs:
   Plan_Dev:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    uses: pravishtsunil/wema-terraform/.github/workflows/aws_tf_plan.yml@main
-    with:
-      path: Terraform
-      tf_vars_file: dev.tfvars
-      gh_environment: dev
-    secrets:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_REGION: ${{ secrets.AWS_REGION }}
-      TF_STATE_BUCKET: ${{ secrets.TF_STATE_BUCKET }}
+    steps:
+      - name: Call Plan Workflow
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'pravishtsunil',
+              repo: 'wema-terraform',
+              workflow_id: 'aws_tf_plan.yml',
+              ref: 'main',
+              inputs: {
+                path: 'Terraform',
+                tf_vars_file: 'dev.tfvars',
+                gh_environment: 'dev'
+              }
+            })
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          TF_STATE_BUCKET: ${{ secrets.TF_STATE_BUCKET }}
+
+  Plan_Uat:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Plan Workflow
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'pravishtsunil',
+              repo: 'wema-terraform',
+              workflow_id: 'aws_tf_plan.yml',
+              ref: 'main',
+              inputs: {
+                path: 'Terraform',
+                tf_vars_file: 'uat.tfvars',
+                gh_environment: 'uat'
+              }
+            })
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          TF_STATE_BUCKET: ${{ secrets.TF_STATE_BUCKET }}
+
+  Plan_Prod:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Plan Workflow
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'pravishtsunil',
+              repo: 'wema-terraform',
+              workflow_id: 'aws_tf_plan.yml',
+              ref: 'main',
+              inputs: {
+                path: 'Terraform',
+                tf_vars_file: 'prod.tfvars',
+                gh_environment: 'prod'
+              }
+            })
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          TF_STATE_BUCKET: ${{ secrets.TF_STATE_BUCKET }}
 
   Deploy_Dev:
     needs: Plan_Dev
     runs-on: ubuntu-latest
     environment: dev
-    uses: pravishtsunil/wema-terraform/.github/workflows/aws_tf_appy.yml@main
-    with:
-      path: Terraform
-      tf_vars_file: dev.tfvars
-      gh_environment: dev
-    secrets:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_REGION: ${{ secrets.AWS_REGION }}
-      TF_STATE_BUCKET: ${{ secrets.TF_STATE_BUCKET }}
-
-  Plan_Uat:
-    if: github.ref == 'refs/heads/main'
-    needs: Deploy_Dev
-    runs-on: ubuntu-latest
-    uses: pravishtsunil/wema-terraform/.github/workflows/aws_tf_plan.yml@main
-    with:
-      path: Terraform
-      tf_vars_file: uat.tfvars
-      gh_environment: uat
-    secrets:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_REGION: ${{ secrets.AWS_REGION }}
-      TF_STATE_BUCKET: ${{ secrets.TF_STATE_BUCKET }}
+    steps:
+      - name: Call Apply Workflow
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'pravishtsunil',
+              repo: 'wema-terraform',
+              workflow_id: 'aws_tf_appy.yml',
+              ref: 'main',
+              inputs: {
+                path: 'Terraform',
+                tf_vars_file: 'dev.tfvars',
+                gh_environment: 'dev'
+              }
+            })
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          TF_STATE_BUCKET: ${{ secrets.TF_STATE_BUCKET }}
 
   Deploy_Uat:
     needs: Plan_Uat
     runs-on: ubuntu-latest
     environment: uat
-    uses: pravishtsunil/wema-terraform/.github/workflows/aws_tf_appy.yml@main
-    with:
-      path: Terraform
-      tf_vars_file: uat.tfvars
-      gh_environment: uat
-    secrets:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_REGION: ${{ secrets.AWS_REGION }}
-      TF_STATE_BUCKET: ${{ secrets.TF_STATE_BUCKET }}
-
-  Plan_Prod:
-    if: github.ref == 'refs/heads/main'
-    needs: Deploy_Uat
-    runs-on: ubuntu-latest
-    uses: pravishtsunil/wema-terraform/.github/workflows/aws_tf_plan.yml@main
-    with:
-      path: Terraform
-      tf_vars_file: prod.tfvars
-      gh_environment: prod
-    secrets:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_REGION: ${{ secrets.AWS_REGION }}
-      TF_STATE_BUCKET: ${{ secrets.TF_STATE_BUCKET }}
+    steps:
+      - name: Call Apply Workflow
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'pravishtsunil',
+              repo: 'wema-terraform',
+              workflow_id: 'aws_tf_appy.yml',
+              ref: 'main',
+              inputs: {
+                path: 'Terraform',
+                tf_vars_file: 'uat.tfvars',
+                gh_environment: 'uat'
+              }
+            })
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          TF_STATE_BUCKET: ${{ secrets.TF_STATE_BUCKET }}
 
   Deploy_Prod:
     needs: Plan_Prod
     runs-on: ubuntu-latest
     environment: prod
-    uses: pravishtsunil/wema-terraform/.github/workflows/aws_tf_appy.yml@main
-    with:
-      path: Terraform
-      tf_vars_file: prod.tfvars
-      gh_environment: prod
-    secrets:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_REGION: ${{ secrets.AWS_REGION }}
-      TF_STATE_BUCKET: ${{ secrets.TF_STATE_BUCKET }}
+    steps:
+      - name: Call Apply Workflow
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'pravishtsunil',
+              repo: 'wema-terraform',
+              workflow_id: 'aws_tf_appy.yml',
+              ref: 'main',
+              inputs: {
+                path: 'Terraform',
+                tf_vars_file: 'prod.tfvars',
+                gh_environment: 'prod'
+              }
+            })
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          TF_STATE_BUCKET: ${{ secrets.TF_STATE_BUCKET }}
