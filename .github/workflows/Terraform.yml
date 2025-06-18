@@ -14,8 +14,11 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Call Plan Workflow
-        uses: ./.github/workflows/aws_tf_plan.yml
+        uses: ./.github/workflows/aws_tf_plan.yml@main
         with:
           path: Terraform
           tf_vars_file: dev.tfvars
@@ -31,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Call Plan Workflow
-        uses: ./.github/workflows/aws_tf_plan.yml
+        uses: ./.github/workflows/aws_tf_plan.yml@main
         with:
           path: Terraform
           tf_vars_file: uat.tfvars
@@ -47,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Call Plan Workflow
-        uses: ./.github/workflows/aws_tf_plan.yml
+        uses: ./.github/workflows/aws_tf_plan.yml@main
         with:
           path: Terraform
           tf_vars_file: prod.tfvars
@@ -64,7 +67,7 @@ jobs:
     environment: dev
     steps:
       - name: Call Apply Workflow
-        uses: ./.github/workflows/aws_tf_appy.yml
+        uses: ./.github/workflows/aws_tf_appy.yml@main
         with:
           path: Terraform
           tf_vars_file: dev.tfvars
@@ -81,7 +84,7 @@ jobs:
     environment: uat
     steps:
       - name: Call Apply Workflow
-        uses: ./.github/workflows/aws_tf_appy.yml
+        uses: ./.github/workflows/aws_tf_appy.yml@main
         with:
           path: Terraform
           tf_vars_file: uat.tfvars
@@ -98,7 +101,7 @@ jobs:
     environment: prod
     steps:
       - name: Call Apply Workflow
-        uses: ./.github/workflows/aws_tf_appy.yml
+        uses: ./.github/workflows/aws_tf_appy.yml@main
         with:
           path: Terraform
           tf_vars_file: prod.tfvars
